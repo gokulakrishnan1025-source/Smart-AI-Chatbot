@@ -1,4 +1,4 @@
-uuimport streamlit as st
+import streamlit as st
 from datetime import datetime
 
 # Page configuration
