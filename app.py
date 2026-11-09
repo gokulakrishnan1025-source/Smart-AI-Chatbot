@@ -424,7 +424,10 @@ else:
         st.caption("🎤 Voice input needs the streamlit-mic-recorder package (see requirements.txt).")
 
     if voice_text:
-        send_message(voice_text)
+    st.success(f"Voice detected: {voice_text}")
+    send_message(voice_text)
+else:
+    st.caption("Waiting for voice input...")
 
     # Text input
     user_question = st.chat_input("Ask Kira anything...")
