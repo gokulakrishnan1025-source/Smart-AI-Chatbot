@@ -323,6 +323,9 @@ def get_response(question):
 
     return None  # Unknown question
 
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
 # Send a message and handle the reply
 def send_message(text):
     st.session_state.messages.append({"role": "user", "content": text})
