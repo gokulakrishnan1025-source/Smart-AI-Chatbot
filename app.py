@@ -401,7 +401,7 @@ else:
         send_message(voice_text)
 
     # Text input
-    user_question = st.chat_input("Ask your question here...")
+    user_question = st.chat_input("Ask Kira anything...")
     if user_question:
         send_message(user_question)
 
