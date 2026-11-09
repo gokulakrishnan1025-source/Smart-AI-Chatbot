@@ -287,11 +287,24 @@ if "show_upgrade" not in st.session_state:
 if "premium" not in st.session_state:
     st.session_state.premium = False
 
+
+# Initialize session state
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if "premium" not in st.session_state:
+    st.session_state.premium = False
+
+if "show_upgrade" not in st.session_state:
+    st.session_state.show_upgrade = False
+
 # Find chatbot response
 def get_response(question):
-    text = question.lower().strip()
+    # Convert to lowercase and remove punctuation
+    text = re.sub(r"[^\w\s]", "", question.lower()).strip()
 
-    if any(word in text for word in ["hello", "hi", "hey"]):
+    # Greeting
+    if text in ["hello", "hi", "hey", "hello there"]:
         return "Hello! 👋 Welcome to **Ask Kira**. Ask me a question."
 
     if "your name" in text or "who are you" in text:
@@ -303,35 +316,33 @@ def get_response(question):
     if "help" in text:
         return "Sure! Ask me about Python, AI, Machine Learning, Data Science, Computers, Science and more."
 
-    if "time" in text:
+    if re.search(r"\btime\b", text):
         return "Current time: " + datetime.now().strftime("%I:%M %p")
 
     if "date" in text or "today" in text:
         return "Today's date: " + datetime.now().strftime("%d-%m-%Y")
 
-    if any(word in text for word in ["thank you", "thanks"]):
+    if "thank you" in text or re.search(r"\bthanks\b", text):
         return "You're welcome! 😊"
 
-    if any(word in text for word in ["bye", "goodbye"]):
+    if re.search(r"\b(bye|goodbye)\b", text):
         return "Goodbye! Have a great day. 👋"
 
-    # Match predefined keywords
+    # Match complete words and phrases
+    padded_text = " " + text + " "
+
     for topic, details in knowledge_base.items():
         for keyword in details["keywords"]:
-            if keyword in text.split():
+            clean_keyword = re.sub(
+                r"[^\w\s]", "", keyword.lower()
+            ).strip()
+
+            padded_keyword = " " + clean_keyword + " "
+
+            if padded_keyword in padded_text:
                 return details["answer"]
 
     return None  # Unknown question
-
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-if "premium" not in st.session_state:
-    st.session_state.premium = False
-
-if "show_upgrade" not in st.session_state:
-    st.session_state.show_upgrade = False
 
 
 
@@ -422,25 +433,30 @@ else:
             if st.button(question, key=f"suggestion_{index}"):
                 send_message(question)
 
-    # Voice-to-text input (works on mobile browsers)
-    voice_text = None
-    try:
-        from streamlit_mic_recorder import speech_to_text
-        voice_text = speech_to_text(
-            key="kira_voice",
-            language="en",
-            start_prompt="🎤 Speak",
-            stop_prompt="⏹ Stop"
-        )
-    except Exception:
-        st.caption("🎤 Voice input needs the streamlit-mic-recorder package (see requirements.txt).")
+    # Voice-to-text input
+try:
+    from streamlit_mic_recorder import speech_to_text
 
-    if voice_text:
+    voice_text = speech_to_text(
+        key="kira_voice",
+        language="en",
+        start_prompt="🎤 Speak",
+        stop_prompt="⏹ Stop",
+        just_once=True
+    )
+
+    if voice_text and voice_text.strip():
         st.success(f"Voice detected: {voice_text}")
-        send_message(voice_text)
-    else:
-        st.caption("Waiting for voice input...")
+        send_message(voice_text.strip())
 
+except ImportError:
+    st.warning(
+        "Voice input package is missing. "
+        "Please check requirements.txt."
+    )
+except Exception as e:
+    st.error(f"Voice input error: {e}")
+      
     # Text input
     user_question = st.chat_input("Ask Kira anything...")
     if user_question:
