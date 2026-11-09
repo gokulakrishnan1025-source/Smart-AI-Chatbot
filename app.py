@@ -433,30 +433,6 @@ else:
         with cols[index % 2]:
             if st.button(question, key=f"suggestion_{index}"):
                 send_message(question)
-
-    # Voice-to-text input
-try:
-    from streamlit_mic_recorder import speech_to_text
-
-    voice_text = speech_to_text(
-        key="kira_voice",
-        language="en",
-        start_prompt="🎤 Speak",
-        stop_prompt="⏹ Stop",
-        just_once=True
-    )
-
-    if voice_text and voice_text.strip():
-        st.success(f"Voice detected: {voice_text}")
-        send_message(voice_text.strip())
-
-except ImportError:
-    st.warning(
-        "Voice input package is missing. "
-        "Please check requirements.txt."
-    )
-except Exception as e:
-    st.error(f"Voice input error: {e}")
       
     # Text input
     user_question = st.chat_input("Ask Kira anything...")
