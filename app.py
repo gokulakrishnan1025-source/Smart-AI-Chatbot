@@ -324,15 +324,13 @@ def get_response(question):
     return None  # Unknown question
 
 # Initialize session state
-if "messages" not in
-st.session_state:
+if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "premium" not in st.session_state:
     st.session_state.premium = False
 
-if "show_upgrade" not in 
-st.session_state:
+if "show_upgrade" not in st.session_state:
     st.session_state.show_upgrade = False
 
 
