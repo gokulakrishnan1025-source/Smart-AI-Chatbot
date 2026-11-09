@@ -1,5 +1,6 @@
 
 import streamlit as st
+from openai import OpenAI
 
 st.set_page_config(
     page_title="Smart AI Chatbot",
@@ -9,6 +10,12 @@ st.set_page_config(
 
 st.title("🤖 Smart AI Chatbot")
 st.caption("Your personal chatbot assistant")
+
+# Connect to OpenAI using the key saved in Streamlit Secrets
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+# Model name (if this gives an error, we can change it)
+MODEL = "gpt-4o-mini"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -27,11 +34,24 @@ if prompt:
     with st.chat_message("user"):
         st.write(prompt)
 
-    response = "Hello! You said: " + prompt
+    with st.chat_message("assistant"):
+        try:
+            with st.spinner("Thinking..."):
+                result = client.chat.completions.create(
+                    model=MODEL,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a helpful and friendly AI assistant."
+                        }
+                    ] + st.session_state.messages
+                )
+            response = result.choices[0].message.content
+        except Exception as e:
+            response = "Sorry, error vandhuduchu: " + str(e)
+
+        st.write(response)
 
     st.session_state.messages.append(
         {"role": "assistant", "content": response}
     )
-
-    with st.chat_message("assistant"):
-        st.write(response)
