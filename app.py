@@ -9,23 +9,46 @@ st.set_page_config(
 )
 
 # Light animated background
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background: linear-gradient(-45deg, #fdfbfb, #eef4ff, #fff7ec, #f0fff4);
-        background-size: 400% 400%;
-        animation: kiraGradient 15s ease infinite;
-    }
-    @keyframes kiraGradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+.stApp {
+    background: linear-gradient(
+        180deg,
+        #050816,
+        #111827,
+        #263449,
+        #080d1a
+    );
+    background-size: 400% 400%;
+    animation: stormSky 12s ease infinite;
+}
+
+@keyframes stormSky {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        linear-gradient(
+            115deg,
+            transparent 45%,
+            rgba(255,255,255,0.9) 49%,
+            transparent 51%
+        );
+    opacity: 0;
+    animation: lightningFlash 8s infinite;
+}
+
+@keyframes lightningFlash {
+    0%, 88%, 91%, 100% { opacity: 0; }
+    89% { opacity: 0.7; }
+    90% { opacity: 0.05; }
+}
+
 
 # Chatbot title (Branding: Ask Kira / Kira)
 st.title("🤖 Ask Kira")
