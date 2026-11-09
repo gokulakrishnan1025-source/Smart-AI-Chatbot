@@ -318,7 +318,7 @@ def get_response(question):
     # Match predefined keywords
     for topic, details in knowledge_base.items():
         for keyword in details["keywords"]:
-            if keyword in text:
+            if keyword in text.split():
                 return details["answer"]
 
     return None  # Unknown question
