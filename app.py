@@ -9,6 +9,8 @@ st.set_page_config(
 )
 
 # Light animated background
+st.markdown("""
+<style>
 .stApp {
     background: linear-gradient(
         180deg,
@@ -32,13 +34,12 @@ st.set_page_config(
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background:
-        linear-gradient(
-            115deg,
-            transparent 45%,
-            rgba(255,255,255,0.9) 49%,
-            transparent 51%
-        );
+    background: linear-gradient(
+        115deg,
+        transparent 45%,
+        rgba(255,255,255,0.9) 49%,
+        transparent 51%
+    );
     opacity: 0;
     animation: lightningFlash 8s infinite;
 }
@@ -48,6 +49,8 @@ st.set_page_config(
     89% { opacity: 0.7; }
     90% { opacity: 0.05; }
 }
+</style>
+""", unsafe_allow_html=True)
 
 
 # Chatbot title (Branding: Ask Kira / Kira)
