@@ -13,43 +13,72 @@ st.set_page_config(
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(
-        180deg,
-        #050816,
-        #111827,
-        #263449,
-        #080d1a
-    );
-    background-size: 400% 400%;
-    animation: stormSky 12s ease infinite;
+    background:
+        radial-gradient(ellipse at 20% 10%, rgba(70,80,100,0.55), transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(55,65,85,0.6), transparent 50%),
+        linear-gradient(180deg, #02040a, #0b1220, #1a2335, #05070f);
+    background-size: 200% 200%, 200% 200%, 100% 100%;
+    animation: clouds 20s ease-in-out infinite;
 }
 
-@keyframes stormSky {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+@keyframes clouds {
+    0%, 100% { background-position: 0% 0%, 100% 0%, 0 0; }
+    50% { background-position: 100% 30%, 0% 30%, 0 0; }
 }
 
+/* Thor-blue thunder flashes */
 .stApp::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background: linear-gradient(
-        115deg,
-        transparent 45%,
-        rgba(255,255,255,0.9) 49%,
-        transparent 51%
-    );
+    background:
+        radial-gradient(ellipse at 30% 0%, rgba(160,210,255,0.9), transparent 60%),
+        linear-gradient(115deg, transparent 44%, rgba(190,225,255,0.95) 49%, transparent 54%);
     opacity: 0;
-    animation: lightningFlash 8s infinite;
+    animation: thunder 4s infinite;
 }
 
-@keyframes lightningFlash {
-    0%, 88%, 91%, 100% { opacity: 0; }
-    89% { opacity: 0.7; }
-    90% { opacity: 0.05; }
+@keyframes thunder {
+    0%, 100% { opacity: 0; }
+    6% { opacity: 0.55; }
+    8% { opacity: 0.05; }
+    10% { opacity: 0.7; }
+    13% { opacity: 0; }
+    55% { opacity: 0; }
+    57% { opacity: 0.45; }
+    59% { opacity: 0; }
 }
+
+/* Wind swirl */
+.stApp::after {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 160vmax;
+    height: 160vmax;
+    margin: -80vmax 0 0 -80vmax;
+    pointer-events: none;
+    z-index: 0;
+    background: conic-gradient(
+        from 0deg,
+        transparent,
+        rgba(150,180,220,0.10),
+        transparent 25%,
+        rgba(150,180,220,0.08),
+        transparent 55%,
+        rgba(150,180,220,0.10),
+        transparent 80%
+    );
+    animation: windSwirl 25s linear infinite;
+}
+
+@keyframes windSwirl {
+    to { transform: rotate(360deg); }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
