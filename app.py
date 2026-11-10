@@ -17,8 +17,7 @@ st.markdown("""
     color: #ffffff;
 }
 </style>
-""", unsafe_allow_html=True).
-
+""", unsafe_allow_html=True)
 
 
 # Chatbot title (Branding: Ask Kira / Kira)
