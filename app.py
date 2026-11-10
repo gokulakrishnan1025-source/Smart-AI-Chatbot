@@ -86,7 +86,7 @@ st.markdown("""
 # Chatbot title (Branding: Ask Kira / Kira)
 st.title("🤖 Ask Kira")
 st.caption("Your smart question-answer assistant")
-st.caption("Rule-based demo chatbot — predefined Q&A, not a live generative AI.")
+"Rule-based demo chatbot"
 
 # Predefined question and answer database (30 topics, 50+ question variations)
 knowledge_base = {
